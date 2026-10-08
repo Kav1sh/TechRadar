@@ -1,0 +1,27 @@
+[build-system]
+requires = ["setuptools>=70"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "techradar"
+version = "0.1.0"
+description = "Detect emerging technologies before they become obvious."
+requires-python = ">=3.12"
+
+dependencies = [
+    "sqlalchemy>=2.0,<3",
+    "psycopg[binary]>=3,<4",
+    "python-dotenv>=1,<2",
+    "requests>=2,<3",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=8,<10",
+]
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
