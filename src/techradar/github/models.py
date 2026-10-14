@@ -12,3 +12,11 @@ class GitHubRepository:
     url: str
     language: str | None
     created_at: datetime
+
+@dataclass
+class GitHubMetrics:
+    stars: int
+    forks: int
+    open_issues: int
+    observed_at: datetime
+    

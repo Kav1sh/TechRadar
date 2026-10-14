@@ -4,6 +4,39 @@ from techradar.config import DATABASE_URL
 
 engine = create_engine(DATABASE_URL)
 
+def save_repository_metrics(repository_id, metrics):
+    query = text("""
+        INSERT INTO repository_metrics (
+            repository_id,
+            observed_at,
+            stars,
+            forks,
+            open_issues
+        )
+        VALUES (
+            :repository_id,
+            :observed_at,
+            :stars,
+            :forks,
+            :open_issues
+        )
+        RETURNING id
+    """)
+
+    with engine.begin() as connection:
+        result = connection.execute(
+            query,
+            {
+                "repository_id": repository_id,
+                "observed_at": metrics.observed_at,
+                "stars": metrics.stars,
+                "forks": metrics.forks,
+                "open_issues": metrics.open_issues,
+            },
+        )
+
+        return result.scalar_one()
+
 
 def save_repository(repository):
     query = text("""

@@ -1,7 +1,8 @@
 import requests
-from datetime import datetime
+from datetime import datetime, timezone
 
-from techradar.github.models import GitHubRepository
+
+from techradar.github.models import GitHubRepository, GitHubMetrics
 
 
 class GitHubClient:
@@ -27,4 +28,11 @@ class GitHubClient:
             created_at=datetime.fromisoformat(
                 data["created_at"].replace("Z", "+00:00")
             ),
+        )
+    def parse_metrics(self,data:dict) -> GitHubMetrics:
+        return GitHubMetrics(
+            stars=data["stargazers_count"],
+            forks=data["forks_count"],
+            open_issues=data["open_issues_count"],
+            observed_at=datetime.now(timezone.utc),
         )
